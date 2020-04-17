@@ -1,9 +1,9 @@
 {
-    "name": "ocp-syntax",
+    "name": "ocaml-syntax",
     "displayName": "Syntax for ocp-build configuration",
     "description": "Additional syntax highlighting for OCaml & Ocaml tools",
-    "publisher":"jfthuong",
-    "version": "0.0.1",
+    "publisher": "jfthuong",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.44.0"
     },
@@ -30,13 +30,10 @@
         "url": "http://niclineseg.ansys.com/jthuong/ocp-syntax/issues",
         "email": "jean-francois.thuong@ansys.com"
     },
-    "activationEvents": [
-        "onLanguage:ocp"
-    ],
     "contributes": {
         "languages": [
             {
-                "id": "ocp",
+                "id": "ocp-build",
                 "aliases": [
                     "ocp-build",
                     "ocp"
@@ -44,15 +41,50 @@
                 "extensions": [
                     ".ocp"
                 ],
-                "configuration": "./language-configuration.json"
+                "configuration": "./language-ocaml.json"
+            },
+            {
+                "id": "ocamllex",
+                "aliases": [
+                    "OCamllex",
+                    "ocamllex"
+                ],
+                "extensions": [
+                    ".mll"
+                ],
+                "configuration": "./language-ocaml.json"
+            },
+            {
+                "id": "ocamlyacc",
+                "aliases": [
+                    "OCamlyacc",
+                    "ocamlyacc"
+                ],
+                "extensions": [
+                    ".mly"
+                ],
+                "configuration": "./language-ocaml.json"
             }
         ],
         "grammars": [
             {
-                "language": "ocp",
+                "language": "ocp-build",
                 "scopeName": "source.ocp",
                 "path": "./syntaxes/ocp.tmLanguage.json"
+            },
+            {
+                "language": "ocamllex",
+                "scopeName": "source.ocamllex",
+                "path": "./syntaxes/Ocamllex.tmLanguage.json"
+            },
+            {
+                "language": "ocamlyacc",
+                "scopeName": "source.ocamlyacc",
+                "path": "./syntaxes/menhir.tmLanguage"
             }
         ]
+    },
+    "devDependencies": {
+        "js-yaml": "^3.13.1"
     }
 }

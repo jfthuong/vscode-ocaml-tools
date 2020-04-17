@@ -29,7 +29,7 @@
 			]
 		},
 		"comments": {
-			"name": "comment.block",
+			"name": "comment.block.ocaml",
 			"begin": "\\(\\*",
 			"end": "\\*\\)"
 		},
