@@ -1,7 +1,8 @@
 {
     "name": "ocp-syntax",
     "displayName": "Syntax for ocp-build configuration",
-    "description": "Syntax Highlighting for .ocp files (configuration of ocp-build)",
+    "description": "Additional syntax highlighting for OCaml & Ocaml tools",
+    "publisher":"jfthuong",
     "version": "0.0.1",
     "engines": {
         "vscode": "^1.44.0"
@@ -9,12 +10,35 @@
     "categories": [
         "Programming Languages"
     ],
+    "icon": "images/ocaml_logo.png",
+    "galleryBanner": {
+        "color": "#293845",
+        "theme": "dark"
+    },
+    "keywords": [
+        "language",
+        "ocaml",
+        "highlight",
+        "syntax"
+    ],
+    "homepage": "http://niclineseg.ansys.com/jthuong/ocp-syntax",
+    "repository": {
+        "type": "git",
+        "url": "git@niclineseg.ansys.com:jthuong/ocp-syntax.git"
+    },
+    "bugs": {
+        "url": "http://niclineseg.ansys.com/jthuong/ocp-syntax/issues",
+        "email": "jean-francois.thuong@ansys.com"
+    },
+    "activationEvents": [
+        "onLanguage:ocp"
+    ],
     "contributes": {
         "languages": [
             {
                 "id": "ocp",
                 "aliases": [
-                    "ocp",
+                    "ocp-build",
                     "ocp"
                 ],
                 "extensions": [
