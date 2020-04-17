@@ -1,0 +1,100 @@
+version = "0.0.1"
+authors=["Aubanel Monnier <aubanel.monnier@ansys.com>"]
+
+(* cspell:word Aubanel, Monnier, sotif *)
+
+begin library "osc2"
+    files = [ "osc2/osc.ml" "osc2/oscParser.mly" "osc2/oscLex.mll" "osc2/oscTokTrace" "osc2/indent.ml" "osc2/oscPp.ml"]
+    requires = []
+end
+
+begin program "sce"
+    files = [ "dom.ml" "domWriter.ml" "sce.ml" "scePp.ml" "sceSamples.ml"]
+    requires = []
+end
+
+begin library "test_tools"
+    files = ["tests/testTools.ml"]
+    requires = []
+end
+
+
+(* Test Cases *)
+begin test "test-osc2-pp"
+    files = ["tests/osc2/tu_pp.ml"]
+    requires = ["osc2" "unix" "test_tools"]
+    test_args = ["%{test}%"]
+    test_byte = false
+    tests = [
+        "two_phases"
+        "basic"
+        "extend_scenario"
+        "cut_in"
+        "sotif"
+    ]
+end
+
+begin test "test-osc2-lex"
+    files = ["tests/osc2/tu_lex.ml"]
+    requires = ["osc2" "unix" "test_tools"]
+    test_byte = false
+    test_args = ["%{test}%"]
+    (* List of files in tests/osc2/in + "FROM_PP" *)
+    tests = [
+        "FROM_PP"
+        "actor"
+        "basic"
+        "empty"
+        "enum"
+        "imports"
+        "one_import"
+        "structures"
+    ]
+end
+
+begin test "test-osc2-parse"
+    files = ["tests/osc2/tu_parse.ml" ]
+    requires = ["osc2" "unix" "test_tools"]
+    test_byte = false
+    test_args = ["%{test}%"]
+    (* List of files in tests/osc2/in *)
+    tests = [
+        "actor"
+        "basic"
+        "empty"
+        "enum"
+        "imports"
+        "one_import"
+        "structures"
+    ]
+end
+
+begin program "my-program"
+    files = [ "main.ml" ]
+    requires = [ "my-lib" ]
+    (* for all the tests, the program should receive the test name
+    as first argument *)
+    test_args = [ "%{test}%"]
+    (* we want to run 3 tests, with names "1", "2" and "3" *)
+    tests = [ "1" "2"
+    (* in the test "3", the expected exit status should be 2 *)
+    "3" (test_exit = 2) ]
+end
+
+begin library "ocplib-fast"
+    files = [
+        "fastHashtbl.ml" (asmcomp = [ "-inline"; "30" ])
+        "fastString.ml"
+    ]
+end
+
+
+begin library "ocplib-fast-long"
+    files = [
+        begin (asmcomp = [ "-inline"; "30" ])
+            "fastHashtbl.ml"
+            "fastMap.ml"
+        end
+        "fastString.ml"
+    ]
+end

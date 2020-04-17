@@ -1,0 +1,151 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "ocp",
+	"patterns": [
+		{
+			"include": "#attributes"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#blocks"
+		}
+	],
+	"repository": {
+		"attributes": {
+			"comment": "Keywords at the top",
+			"patterns": [
+				{
+					"name": "entity.name",
+					"match": "^(version|authors|license)\\b"
+				}
+			]
+		},
+		"comments": {
+			"name": "comment.block",
+			"begin": "\\(\\*",
+			"end": "\\*\\)"
+		},
+		"strings": {
+			"name": "string.quoted.double.ocp",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "variable.language",
+					"comment": "Variables for build",
+					"match": "%\\{(HOME|OCP_HOME|PATH|OCAMLLIB)\\}%"
+				},
+				{
+					"name": "variable.language",
+					"comment": "Variables for tests",
+					"match": "%\\{(test|binary|sources|tests|variant|results)\\}%"
+				},
+				{
+					"name": "variable",
+					"match": "%\\{\\w+\\}%"
+				},
+				{
+					"name": "constant.character.escape.ocp",
+					"match": "\\\\."
+				}
+			]
+		},
+		"keywords": {
+			"name": "keyword",
+			"patterns": [
+				{
+					"name": "keyword.assignment",
+					"match": "="
+				},
+				{
+					"name": "constant.character",
+					"match": "\\b(true|false)\\b"
+				},
+				{
+					"name": "constant.numeric.ocp",
+					"match": "\\b\\d+\\b"
+				}
+			]
+		},
+		"file_lists": {
+			"patterns": [
+				{
+					"begin": "\\b(begin)\\b",
+					"end": "\\b(end)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.ocp"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "keyword.control.ocp"
+						}
+					}
+				}
+			]
+		},
+		"blocks": {
+			"begin": "^(begin)\\s+(program|test|library)",
+			"end": "^end",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.ocp"
+				},
+				"2": {
+					"name": "keyword.operator"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "keyword.control.ocp"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"name": "meta.scope.ocp",
+					"comment": "List of files or tests",
+					"match": "\\b(files|tests)\\b",
+					"patterns": [
+						{
+							"include": "#file_lists"
+						}
+					]
+				},
+				{
+					"name": "meta.scope.ocp",
+					"comment": "Generic Keywords",
+					"match": "\\b(requires|sort)\\b"
+				},
+				{
+					"name": "meta.scope.ocp",
+					"comment": "Keywords for tests",
+					"match": "test_(exit|dir|args|benchmark|stdout|stderr|stdin|serialized|variants|asm|byte|cmd)"
+				},
+				{
+					"name": "entity.name.function",
+					"comment": "functions",
+					"match": "(?<=\\()(\\w+)\\s+"
+				}
+			]
+		}
+	},
+	"scopeName": "source.ocp"
+}

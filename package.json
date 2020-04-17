@@ -1,0 +1,34 @@
+{
+    "name": "ocp-syntax",
+    "displayName": "Syntax for ocp-build configuration",
+    "description": "Syntax Highlighting for .ocp files (configuration of ocp-build)",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.44.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "ocp",
+                "aliases": [
+                    "ocp",
+                    "ocp"
+                ],
+                "extensions": [
+                    ".ocp"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "ocp",
+                "scopeName": "source.ocp",
+                "path": "./syntaxes/ocp.tmLanguage.json"
+            }
+        ]
+    }
+}
