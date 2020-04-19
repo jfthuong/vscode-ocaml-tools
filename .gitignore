@@ -1,3 +1,4 @@
 /node_modules
 *.vsix
 .mypy_cache
+other_syntaxes

@@ -1,14 +1,15 @@
 {
-    "name": "ocaml-syntax",
-    "displayName": "Syntax for ocp-build configuration",
-    "description": "Additional syntax highlighting for OCaml & Ocaml tools",
+    "name": "ocaml-tools-syntax",
+    "displayName": "Syntax Highlight for Ocaml tools",
+    "description": "Additional syntax highlighting for OCaml tools (OCamllex, OCamlyacc, and ocp-build)",
     "publisher": "jfthuong",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "engines": {
         "vscode": "^1.44.0"
     },
     "categories": [
-        "Programming Languages"
+        "Programming Languages",
+        "Snippets"
     ],
     "icon": "images/ocaml_logo.png",
     "galleryBanner": {
@@ -63,7 +64,13 @@
                 "extensions": [
                     ".mly"
                 ],
-                "configuration": "./language-ocaml.json"
+                "configuration": "./language-ocamlyacc.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "ocp-build",
+                "path": "snippets/snip_ocp.json"
             }
         ],
         "grammars": [
@@ -80,7 +87,10 @@
             {
                 "language": "ocamlyacc",
                 "scopeName": "source.ocamlyacc",
-                "path": "./syntaxes/menhir.tmLanguage"
+                "path": "./syntaxes/OCamlyacc.tmLanguage.json",
+                "embeddedLanguages": {
+                    "meta.embedded.ocaml": "ocaml"
+                }
             }
         ]
     },

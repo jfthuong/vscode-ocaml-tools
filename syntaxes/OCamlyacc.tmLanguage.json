@@ -1,0 +1,337 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "ocamlyacc",
+    "fileTypes": ["mly"],
+    "foldingStartMarker": "%\\{|%%",
+    "foldingStopMarker": "%\\}|%%",
+    "keyEquivalent": "^~O",
+    "patterns": [
+        {
+            "include": "#comment"
+        },
+        {
+            "name": "variable.interpolation",
+            "match": "::"
+        },
+        {
+            "comment": "Declaration and header",
+            "begin": "(?=%[^%])",
+            "end": "(?=%%)",
+            "patterns": [
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#declaration"
+                },
+                {
+                    "include": "#ocaml"
+                }
+            ]
+        },
+        {
+            "comment": "Rules",
+            "begin": "%%",
+            "beginCaptures": [
+                {
+                    "name": "keyword.other.ocamlyacc"
+                }
+            ],
+            "end": "%%",
+            "endCaptures": [
+                {
+                    "name": "keyword.other.ocamlyacc"
+                }
+            ],
+            "patterns": [
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#rule"
+                }
+            ]
+        },
+        {
+            "comment": "Trailer",
+            "include": "source.ocaml"
+        }
+    ],
+    "repository": {
+        "ocaml": {
+            "patterns": [
+                {
+                    "include": "source.ocaml#comment"
+                },
+                {
+                    "include": "source.ocaml#pragma"
+                },
+                {
+                    "include": "source.ocaml#signature"
+                },
+                {
+                    "include": "source.ocaml#literal"
+                },
+                {
+                    "include": "source.ocaml#pattern"
+                },
+                {
+                    "include": "source.ocaml#structure"
+                },
+                {
+                    "include": "source.ocaml#termAtomic"
+                },
+                {
+                    "comment": "Custom 'let xxx'",
+                    "match": "(let)\\s+('?\\w+'?)\\s+(=)(?=\\s)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.control.ocaml.custom markup.underline"
+                        },
+                        "2": {
+                            "name": "entity.name.function.ocaml.custom"
+                        },
+                        "3": {
+                            "name": "source.type"
+                        }
+                    }
+                },
+                {
+                    "comment": "Custom 'open xxx'",
+                    "match": "^(open)\\s+(\\w+)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator"
+                        },
+                        "2": {
+                            "name": "entity.name.class.custom constant.numeric"
+                        }
+                    }
+                }
+            ]
+        },
+        "declaration": {
+            "patterns": [
+                {
+                    "comment": "Header",
+                    "contentName": "meta.embedded.ocaml",
+                    "begin": "^%\\{\\s*$",
+                    "captures": [
+                        {
+                            "name": "keyword.other.ocamlyacc"
+                        }
+                    ],
+                    "end": "%\\}\\s*$",
+                    "patterns": [
+                        {
+                            "include": "#ocaml"
+                        }
+                    ]
+                },
+                {
+                    "match": "(%parameter|%start|%type|%token|%nonassoc|%left|%right|%on_error_reduce)\\b",
+                    "name": "keyword.other.ocamlyacc"
+                },
+                {
+                    "begin": "(<)\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*(:)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.other.ocamlyacc"
+                        },
+                        "2": {
+                            "name": "variable.parameter.module.ocamlyacc"
+                        },
+                        "3": {
+                            "name": "keyword.other.ocamlyacc"
+                        }
+                    },
+                    "end": "(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "keyword.other.ocamlyacc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "source.ocaml"
+                        }
+                    ]
+                },
+                {
+                    "begin": "(<)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.other.ocamlyacc"
+                        }
+                    },
+                    "end": "(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "keyword.other.ocamlyacc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "source.ocaml#typedefs"
+                        }
+                    ]
+                }
+            ]
+        },
+        "ruleBrackets": {
+            "begin": "({)",
+            "end": "(})",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.ocamlyacc"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#operator"
+                },
+                {
+                    "include": "source.ocaml"
+                },
+                {
+                    "comment": "Matches $1, $2 ... in rules",
+                    "match": "\\$\\d",
+                    "name": "constant.character.format.placeholder.other.ocamlyacc"
+                },
+                {
+                    "include": "#keyword"
+                },
+                { "include": "#ruleBrackets" }
+            ]
+        },
+        "rule": {
+            "patterns": [
+                {
+                    "match": "([a-z]\\w*)\\s*(?:\\(([^)]+)\\))?(?=\\s*:)",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.function.rule.ocamlyacc"
+                        },
+                        "2": {
+                            "patterns": [
+                                {
+                                    "include": "#ident"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "match": "%public|%inline|%prec",
+                    "name": "keyword.other.directive.ocamlyacc"
+                },
+                {
+                    "begin": "(:|\\|)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.other.ocamlyacc"
+                        }
+                    },
+                    "end": "(?={)",
+                    "patterns": [
+                        {
+                            "include": "#comment"
+                        },
+                        {
+                            "include": "#variable"
+                        },
+                        {
+                            "include": "#reference"
+                        },
+                        {
+                            "include": "#operator"
+                        }
+                    ]
+                },
+                {
+                    "include": "#ruleBrackets"
+                }
+            ]
+        },
+        "comment": {
+            "patterns": [
+                {
+                    "begin": "/\\*",
+                    "end": "\\*/",
+                    "name": "comment.block.ocamlyacc"
+                },
+                {
+                    "begin": "\\(\\*",
+                    "end": "\\*\\)",
+                    "name": "comment.block.other.ocamlyacc"
+                }
+            ]
+        },
+        "variable": {
+            "match": "([a-z][a-zA-Z0-9_]*)\\s*=",
+            "captures": {
+                "1": {
+                    "name": "variable.parameter.value.ocamlyacc"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#reference"
+                }
+            ]
+        },
+        "reference": {
+            "patterns": [
+                {
+                    "match": "\\b(?:[ibl]?option|pair|separated_pair|preceded|terminated|delimited|list|nonempty_list|separated_list|separated_nonempty_list)\\b",
+                    "name": "support.function.rule.ocamlyacc"
+                },
+                {
+                    "include": "#uident"
+                },
+                {
+                    "include": "#lident"
+                }
+            ]
+        },
+        "keyword": {
+            "patterns": [
+                {
+                    "name": "constant.numeric constant.language",
+                    "match": "\\b(None)\\b"
+                },
+                {
+                    "name": "keyword.control.ocaml.custom",
+                    "match": "\\b(Some)\\b"
+
+                }
+            ]
+        },
+        "operator": {
+            "patterns": [
+                {
+                    "match": "([+*?|\\-/]|(?<!%)%(?![%\\}\\{])|::)",
+                    "name": "keyword.operator.ocamlyacc"
+                },
+                {
+                    "name": "keyword.operator.assignment",
+                    "match": "(?<=\\s)=(?=\\s*)"
+                },
+                { "name": "entity.name.section", "match": ";" }
+            ]
+        },
+        "uident": {
+            "match": "[A-Z][a-zA-Z0-9_]*",
+            "name": "entity.name.token.ocamlyacc"
+        },
+        "lident": {
+            "match": "[a-z][a-zA-Z0-9_]*",
+            "name": "entity.name.function.rule.ocamlyacc"
+        },
+        "ident": {
+            "match": "[a-zA-Z][a-zA-Z0-9_]*",
+            "name": "variable.parameter.rule.ocamlyacc"
+        }
+    },
+    "scopeName": "source.ocamlyacc"
+}

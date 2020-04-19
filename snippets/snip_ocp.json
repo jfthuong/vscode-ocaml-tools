@@ -1,0 +1,37 @@
+{
+	"Create program": {
+		"prefix": "program",
+		"body": [
+			"begin program \"$1\"",
+            "    files = [$2]",
+            "    requires = [$3]",
+            "end",
+            ""
+		],
+		"description": "Program to build"
+	},
+	"Create library": {
+		"prefix": "library",
+		"body": [
+			"begin library \"$1\"",
+            "    files = [$2]",
+            "    requires = [$3]",
+            "end",
+            ""
+		],
+		"description": "Library to build"
+	},
+	"Create test": {
+		"prefix": "test",
+		"body": [
+			"begin test \"$1\"",
+            "    files = [$2]",
+            "    requires = [$3]",
+            "    test_args = [$4]",
+            "    tests = [$5]",
+            "end",
+            ""
+		],
+		"description": "Test Creation"
+	}
+}
