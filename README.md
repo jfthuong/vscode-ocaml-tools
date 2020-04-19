@@ -1,5 +1,5 @@
 <!-- cspell:word Ocamllex, Ocamlyacc -->
-# OCaml Additional Syntax Highlighting
+# OCaml Tools Syntax Highlighting
 
 Support additional syntax highlighting for few OCaml tools in Visual Studio Code.
 
