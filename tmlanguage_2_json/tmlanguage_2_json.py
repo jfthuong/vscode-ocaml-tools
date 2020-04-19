@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 import json
 from pathlib import Path
 from pprint import pprint
@@ -126,10 +127,10 @@ class Parser:
         return self
 
 
-def main(tml_path: Union[str, Path], out_path: str = None, json=True, yaml=False):
+def main(tml_path: Union[str, Path], out_path: str = None, to_json=True, to_yaml=False):
     """Export a TextMate to the desired format"""
-    xml_path : Path = Path(__file__).parent.absolute() / tml_path  # to CHDIR
-    # xml_path = Path(tml_path)
+    # xml_path: Path = Path(__file__).parent.absolute() / tml_path  # to CHDIR
+    xml_path = Path(tml_path)
 
     parser = Parser(xml_path).parse()
 
@@ -137,14 +138,33 @@ def main(tml_path: Union[str, Path], out_path: str = None, json=True, yaml=False
         json_path = xml_path.with_suffix(".tmLanguage.json")
     else:
         json_path = Path(out_path).with_suffix(".json")
-    if json:
+    if to_json:
         parser.to_json(json_path)
-    if yaml:
+    if to_yaml:
         parser.to_yaml(json_path.with_suffix(".yaml"))
 
 
 if __name__ == "__main__":
-    xml_path = Path(__file__).absolute().with_name("small.tmLanguage")
-    main(xml_path, yaml=True)
+    # xml_path = Path(__file__).absolute().with_name("small.tmLanguage")
+    # main(xml_path, yaml=True)
+    # main("../syntaxes/menhir.tmLanguage", yaml=True)
+    # main("../syntaxes/Ocamlyacc.tmLanguage", yaml=True)
 
-    main("../syntaxes/menhir.tmLanguage", yaml=True)
+    descr = (
+        "Program to convert a TextMate Grammar .tmLanguage (XML flavor) "
+        "to either JSON format or YAML form."
+    )
+    usgage = "If no format is specified, JSON output format is selected"
+    p = ArgumentParser("tmlanguage_2_json", description=descr)
+    p.add_argument("xml_path", help="Path to XML .tmLanguage")
+    p.add_argument("--json", "-j", action="store_true", help="Store to JSON")
+    p.add_argument("--yaml", "-y", action="store_true", help="Store to YAML")
+    p.add_argument(
+        "--output", "-o", help="Path to output file (default: based on input file)"
+    )
+    args = p.parse_args()
+
+    to_json, to_yaml = False, False
+    if not to_json and not to_yaml:
+        to_json = True
+    main(args.xml_path, args.output, to_json, to_yaml)
